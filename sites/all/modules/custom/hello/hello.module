@@ -1,0 +1,50 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+function hello_block_info() {
+  $blocks = array();
+  
+  $blocks['hello world'] = array(
+    'info' => t('Hello World'),
+           
+  );
+  $blocks['hello user'] = array(
+    'info' => t('Hello User Block'),
+  );
+  return $blocks;
+}
+
+function hello_block_view($delta = '') {
+  $block = array();
+  
+  switch($delta) {
+    case 'hello world';
+      $block['subject'] = t('Hello World!!!');
+      $block['content'] = t('This is the hello world block ');
+      break;
+    case 'hello user';
+      $block['subject'] = t('Hello world');
+      
+      $hour = date('G');
+      $greeting = '';
+      if ($hour < 12) {
+        $greeting = 'Good morning @name!';
+      }
+      elseif ($hour < 18) {
+        $greeting = 'Good afternoon @name!' ;
+      }
+      else {
+        $greeting = 'Good evening @name!' ;
+      }
+      
+      global $user;
+      $block['content'] = t($greeting . ' hour=' . $hour, array('@name' => $user->name));
+      break; 
+  }
+  
+  return $block;
+}
